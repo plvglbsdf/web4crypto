@@ -28,7 +28,7 @@ def login_submit():
     if password == secret:
         return '''<p>Your password was CORRECT! How's that possible! OMG!</p>'''
     else:
-        return '''<p>Your password was incorrect; try again.</p>'''
+        bottle.abort(401, '''Your password was incorrect; try again.''')
 
 
 if __name__ == "__main__":
