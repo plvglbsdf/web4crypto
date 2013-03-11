@@ -3,19 +3,23 @@
 import string
 import time
 import random
+import bottle
+import os
+
 
 # random uses int(time.time() * 256) when it's first time loaded
 # make sure we call random.choice soon after
 SECRET_LEN = 12
 
 secret_time = time.time()
+
+# this is the default for systems without _urandom, btw.
+random.seed(int(secret_time * 256))
+
 secret = ''.join(random.choice(string.ascii_letters) for i in range(SECRET_LEN))
 print("[.] Secret_time: %r %r" % (secret_time, int(secret_time * 256)))
 print("[.] Secret: %r" % (secret,))
 
-
-import bottle
-import os
 
 
 
