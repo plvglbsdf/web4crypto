@@ -1,5 +1,4 @@
-#!/usr/bin/env python3.2
-# Run with Python 3.2
+#!/usr/bin/env python3
 
 import time
 import random
