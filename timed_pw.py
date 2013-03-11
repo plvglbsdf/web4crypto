@@ -17,10 +17,9 @@ print("[.] Secret: %r" % (secret,))
 @bottle.route('/')
 @bottle.get('/login')
 def login_form(message = ''):
-    announce = message + \
+    return message + \
             '<p>Password of length {0} was generated {1} seconds ago.</p>'.\
-            format(length, int(time.time() - secret_time))
-    return announce + form
+            format(SECRET_LEN, int(time.time() - secret_time))
 
 @bottle.post('/login')
 def login_submit():
