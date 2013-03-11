@@ -15,9 +15,9 @@ Options: on command line, user may enter
     * flag -p to display password
 """
 
-import time as T
-import random as R
-import bottle as B
+import time
+import random
+import bottle
 import sys
 
 # Preliminary settings
@@ -39,8 +39,8 @@ start_time = 0
 pw = ''
 
 # HTTP Methods
-@B.route('/')
-@B.get('/login') # or @route('/login')
+@bottle.route('/')
+@bottle.get('/login') # or @route('/login')
 def login_form(message = ''):
     if reveal_password:
         shown_pw = pw
@@ -48,21 +48,21 @@ def login_form(message = ''):
         shown_pw = ''
     announce = message +\
             '<p>Password of length {0} was generated {1} seconds ago. {2}</p>'.\
-            format(length, int(T.time()-start_time), shown_pw)
+            format(length, int(time.time()-start_time), shown_pw)
     return announce + form
 
-@B.post('/login') # or @route('/login', method='POST')
+@bottle.post('/login') # or @route('/login', method='POST')
 def login_submit():
-    password = B.request.forms.get('password')
+    password = bottle.request.forms.get('password')
     if password == pw:
         return '''<p>Your login was correct.</p>'''
     else:
         return '''<p>Your login was incorrect; try again.</p>''' + form
 
 # Begin preparing password
-start_time = T.time()
+start_time = time.time()
 # Printable ASCII ranges from 32 to 126
-pw = ''.join([chr(R.randint(32, 126)) for i in range(length)])
+pw = ''.join([chr(random.randint(32, 126)) for i in range(length)])
 #
 # Run server
-B.run(host='localhost', port=8080, debug=True)
+bottle.run(host='0.0.0.0', port=8080, debug=True)
