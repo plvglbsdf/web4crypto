@@ -1,22 +1,14 @@
 Simple web servers for testing cryptographic tactics
 ----------------------------------------------------
 
-1. `timed_pw.py`: Runs in Python 3.2. Creates preliminary page for Marek Majkowski's Crypto demonostration. Does the following:
+Requirements:
 
- * generates a password;
+ - python 3.2
+ - virtualenv
 
- * reports whole seconds elapsed since password creation;
 
- * reports length of password;
+To run:
 
- * prompts user to enter password, repeating until correct.
+    $ make
+    $ python timed_pw.py
 
- **Options**: on command line, user may enter 
-
- * an integer for optional password length (default is 10)
-
- * flag -p to display password
-
- **Date**: 20130311.
-
-[end]
