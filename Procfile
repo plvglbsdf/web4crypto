@@ -1,1 +1,1 @@
-web: python timed_pw.py
+web: python app.py
