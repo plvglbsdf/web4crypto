@@ -25,10 +25,10 @@ def login_form(message = ''):
 @app.post('/login')
 def login_submit():
     password = bottle.request.forms.get('password')
-    if password == pw:
+    if password == secret:
         return '''<p>Your password was CORRECT! How's that possible! OMG!</p>'''
     else:
-        return '''<p>Your password was incorrect; try again.</p>''' + form
+        return '''<p>Your password was incorrect; try again.</p>'''
 
 
 if __name__ == "__main__":
