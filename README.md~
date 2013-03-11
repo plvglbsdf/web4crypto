@@ -12,6 +12,7 @@ To run:
     $ make
     $ python timed_pw.py
 
+<<<<<<< HEAD
  **Options**: on command line, user may enter 
 
  * an integer for optional password length (default is 10)
@@ -23,3 +24,5 @@ To run:
 1. `hashes.py`: Runs in Python 3.2. Adds a succession of strings to a hash table of size n until k-1 collisions are reached.
 
 [end]
+=======
+>>>>>>> 0070f31c0d7a83cef40db3e0fcf3dd9c3bd521b7

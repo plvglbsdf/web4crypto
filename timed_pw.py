@@ -1,68 +1,47 @@
-#!/usr/bin/env python3.2
-# timed_pw.py
-# 20130311
-# David Prager Branner
-# Run with Python 3.2
- 
-"""Creates preliminary page for Marek Majkowski's Crypto demonostration.
-Generates a password;
-reports whole seconds elapsed since password creation;
-reports length of password;
-prompts user to enter password, repeating until correct.
+#!/usr/bin/env python3
 
-Options: on command line, user may enter 
-    * an integer for optional password length (default is 10)
-    * flag -p to display password
-"""
+import string
+import time
+import random
+import bottle
+import os
 
-import time as T
-import random as R
-import bottle as B
-import sys
 
-# Preliminary settings
-# Check command line flags and options
-length = 10
-reveal_password = False
-for i in sys.argv:
-    try:
-        length = int(i)
-    except:
-        pass
-    if i == '-p':
-        reveal_password = True
-form = '''<form method="POST" action="/login">
-         <input name="password" type="password" />
-         <input type="submit" />
-         </form>'''
-start_time = 0
-pw = ''
+# random uses int(time.time() * 256) when it's first time loaded
+# make sure we call random.choice soon after
+SECRET_LEN = 12
 
-# HTTP Methods
-@B.route('/')
-@B.get('/login') # or @route('/login')
+secret_time = time.time()
+
+# this is the default for systems without _urandom, btw.
+random.seed(int(secret_time * 256))
+
+secret = ''.join(random.choice(string.ascii_letters) for i in range(SECRET_LEN))
+print("[.] Secret_time: %r %r" % (secret_time, int(secret_time * 256)))
+print("[.] Secret: %r" % (secret,))
+
+
+
+
+app = bottle.Bottle()
+
+@app.get('/')
 def login_form(message = ''):
-    if reveal_password:
-        shown_pw = pw
-    else:
-        shown_pw = ''
-    announce = message +\
-            '<p>Password of length {0} was generated {1} seconds ago. {2}</p>'.\
-            format(length, int(T.time()-start_time), shown_pw)
-    return announce + form
+    return message + \
+            '<p>Password of length {0} was generated {1} seconds ago.</p>'.\
+            format(SECRET_LEN, int(time.time() - secret_time))
 
-@B.post('/login') # or @route('/login', method='POST')
+@app.post('/')
 def login_submit():
-    password = B.request.forms.get('password')
-    if password == pw:
-        return '''<p>Your login was correct.</p>'''
+    password = bottle.request.forms.get('password')
+    if password == secret:
+        return '''<p>Your password was CORRECT! How's that possible! OMG!</p>'''
     else:
-        return '''<p>Your login was incorrect; try again.</p>''' + form
+        bottle.abort(401, '''Your password was incorrect; try again.''')
 
-# Begin preparing password
-start_time = T.time()
-# Printable ASCII ranges from 32 to 126
-pw = ''.join([chr(R.randint(32, 126)) for i in range(length)])
-#
-# Run server
-B.run(host='localhost', port=8080, debug=True)
+
+if __name__ == "__main__":
+    PORT = int(os.environ.get("PORT", 8080))
+    app.run(host='0.0.0.0', port=PORT, debug=True)
+
+
