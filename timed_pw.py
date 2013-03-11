@@ -3,9 +3,10 @@
 import time
 import random
 import bottle
-import sys
 import string
+import os
 
+PORT = int(os.environ.get("PORT", 8080))
 SECRET_LEN = 12
 
 secret_time = time.time()
@@ -30,4 +31,4 @@ def login_submit():
         return '''<p>Your password was incorrect; try again.</p>''' + form
 
 
-bottle.run(host='0.0.0.0', port=8080, debug=True)
+bottle.run(host='0.0.0.0', port=PORT, debug=True)
