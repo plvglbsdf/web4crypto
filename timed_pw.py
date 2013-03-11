@@ -5,21 +5,14 @@ import time
 import random
 import bottle
 import sys
+import string
 
-length = 10
-for i in sys.argv:
-    try:
-        length = int(i)
-    except:
-        pass
-    if i == '-p':
-        reveal_password = True
-form = '''<form method="POST" action="/login">
-         <input name="password" type="password" />
-         <input type="submit" />
-         </form>'''
-start_time = 0
-pw = ''
+SECRET_LEN = 12
+
+secret_time = time.time()
+secret = ''.join(random.choice(string.ascii_letters) for i in range(SECRET_LEN))
+
+print("[.] Secret: %r" % (secret,))
 
 @bottle.route('/')
 @bottle.get('/login')
@@ -41,7 +34,5 @@ def login_submit():
     else:
         return '''<p>Your login was incorrect; try again.</p>''' + form
 
-start_time = time.time()
-pw = ''.join([chr(random.randint(32, 126)) for i in range(length)])
 
 bottle.run(host='0.0.0.0', port=8080, debug=True)
