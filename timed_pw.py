@@ -15,14 +15,13 @@ print("[.] Secret: %r" % (secret,))
 
 app = bottle.Bottle()
 
-@app.route('/')
-@app.get('/login')
+@app.get('/')
 def login_form(message = ''):
     return message + \
             '<p>Password of length {0} was generated {1} seconds ago.</p>'.\
             format(SECRET_LEN, int(time.time() - secret_time))
 
-@app.post('/login')
+@app.post('/')
 def login_submit():
     password = bottle.request.forms.get('password')
     if password == secret:
